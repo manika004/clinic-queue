@@ -6,10 +6,10 @@ export function useQueue() {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    const socket = io("http://localhost:3001", {
-      transports: ["websocket", "polling"],
-      reconnectionAttempts: 5,
-    });
+    const socket = io("https://clinic-queue-production-ed97.up.railway.app", {
+  transports: ["websocket", "polling"],
+  reconnectionAttempts: 5,
+});
 
     socketRef.current = socket;
 
