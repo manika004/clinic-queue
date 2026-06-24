@@ -177,4 +177,4 @@ npm run dev
 
 ## Built for
 
-Hackathon — Clinic Queue Management System
+Hackathon — Queue Cure
