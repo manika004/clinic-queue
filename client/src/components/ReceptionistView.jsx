@@ -42,11 +42,16 @@ export default function ReceptionistView() {
 
   const handleCallNext = () => {
     if (!queue.tokens.length) return;
-    const next = queue.tokens[0];
-    setHistory((prev) => [
-      { ...next, seenAt: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), status: "seen" },
-      ...prev,
-    ]);
+    if (queue.currentToken) {
+      setHistory((prev) => [
+        ...prev,
+        {
+          ...queue.currentToken,
+          seenAt: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+          status: "seen",
+        },
+      ]);
+    }
     callNext();
   };
 
@@ -63,12 +68,12 @@ export default function ReceptionistView() {
     }
   };
 
-  const allPatients = [
+ const allPatients = [
     ...(queue.currentToken
       ? [{ ...queue.currentToken, status: "serving", seenAt: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) }]
       : []),
     ...queue.tokens.map((t, i) => ({ ...t, status: "waiting", position: i + 1 })),
-    ...history,
+    ...history.filter((h) => h.id !== queue.currentToken?.id),
   ];
 
   return (
